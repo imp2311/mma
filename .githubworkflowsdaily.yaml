@@ -1,0 +1,23 @@
+name: Daily Update
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Ogni giorno alle 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger-koyeb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configura Git
+        run: |
+          git config --global user.email "koyeb@bot.com"
+          git config --global user.name "Koyeb Bot"
+      - name: Clona e aggiorna repo
+        run: |
+          git clone https://github.com/tuo-username/mma-bot.git
+          cd mma-bot
+          echo "Triggered at $(date)" >> trigger.txt
+          git add .
+          git commit -m "Trigger Koyeb deploy"
+          git push https://<GITHUB_TOKEN>@github.com/tuo-username/mma-bot.git
